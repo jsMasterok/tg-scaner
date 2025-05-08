@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <main className="w-full flex flex-col">
       <Container>
-        <section className="w-full flex flex-col py-4 h-screen justify-evenly items-center">
+        <section className="w-full flex flex-col py-4 h-screen justify-center gap-8 items-center">
           <TyphographyH1 className={"text-center p-2"}>
             Пробей Telegram группу прежде чем вступать 🔍
           </TyphographyH1>
