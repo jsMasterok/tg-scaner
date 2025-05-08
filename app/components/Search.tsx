@@ -12,7 +12,6 @@ import { PackageOpen, Loader } from "lucide-react";
 import { useState } from "react";
 import TypographyH2 from "../typography/TypographyH2";
 import RankCard from "./RankCard";
-import { it } from "node:test";
 
 export default function Search() {
   const [query, setQuery] = useState("");
@@ -83,7 +82,7 @@ export default function Search() {
                   Результаты поиска
                 </TypographyH2>
                 <div className="w-full grid grid-cols-1 mt-4 gap-4 h-fit">
-                  {data?.response?.items?.map((item) => (
+                  {data?.response?.items?.map((item: any) => (
                     <RankCard type="light" key={item.id} item={item} />
                   ))}
                 </div>

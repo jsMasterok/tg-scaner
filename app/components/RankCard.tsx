@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Link as LinkIco } from "lucide-react";
 import Link from "next/link";
 
-export default function RankCard({ item, type = "dark" }) {
+export default function RankCard({
+  item,
+  type = "dark",
+}: {
+  item: any;
+  type: string;
+}) {
   return (
     <article
       className={`w-full flex flex-col gap-y-2 border-2 rounded-md ${

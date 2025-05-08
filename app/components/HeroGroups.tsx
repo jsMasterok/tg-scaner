@@ -26,8 +26,8 @@ export default function HeroGroups() {
   return (
     <Container>
       <div className="w-full gap-2 grid grid-cols-1">
-        {groups?.map((item: object, index: number) => (
-          <RankCard key={index} item={item} />
+        {groups?.map((item: any, index: number) => (
+          <RankCard type="dark" key={index} item={item} />
         ))}
       </div>
     </Container>
