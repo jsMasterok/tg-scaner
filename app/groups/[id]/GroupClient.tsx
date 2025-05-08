@@ -9,6 +9,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import TyphographyP from "@/app/typography/TyphographyP";
 import TypographyH2 from "@/app/typography/TypographyH2";
 
+import { getStableReviews } from "@/app/utils/getStableReviews";
+
 import { Loader, PackageOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -25,7 +27,7 @@ import {
 export default function GroupClient({ id }: { id: string }) {
   const { data, error, isLoading } = useSWR(`/api/group/${id}`, fetcher);
 
-  const revCount = 0;
+  const stableReviews = getStableReviews(id);
 
   if (isLoading)
     return (
@@ -40,8 +42,6 @@ export default function GroupClient({ id }: { id: string }) {
       </div>
     );
   if (error) return <p>Ошибка загрузки 😢</p>;
-
-  console.log(data);
 
   return (
     <Container>
@@ -150,9 +150,9 @@ export default function GroupClient({ id }: { id: string }) {
           </>
         )}
         <TypographyH2 className="text-center text-primary">
-          Отзывы ({revCount})
+          Отзывы ({stableReviews.length})
         </TypographyH2>
-        {revCount === 0 && (
+        {stableReviews.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-2">
             <TyphographyP className="text-primary">
               Упс,отзывов пока нет
@@ -160,6 +160,30 @@ export default function GroupClient({ id }: { id: string }) {
             <PackageOpen size="42" />
           </div>
         )}
+        <div className="w-full grid grid-cols-1 gap-4">
+          {stableReviews?.map((rev, index) => (
+            <div
+              key={index}
+              className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
+            >
+              <div className="inline-flex items-center gap-x-2">
+                <Avatar className="w-18 h-18">
+                  <AvatarImage src="" />
+                  <AvatarFallback>
+                    {rev.user.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <TyphographyP className="text-primary">{rev.user}</TyphographyP>
+                <TyphographyP className="text-primary ml-auto">
+                  {rev.date}
+                </TyphographyP>
+              </div>
+              <TyphographyP className="text-primary p-2">
+                {rev.review}
+              </TyphographyP>
+            </div>
+          ))}
+        </div>
         <TyphographyP className="text-primary text-center !text-xs">
           Отзывы могут оставлять только зарегистрированные пользователи
         </TyphographyP>

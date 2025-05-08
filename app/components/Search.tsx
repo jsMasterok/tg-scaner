@@ -26,26 +26,26 @@ export default function Search() {
     if (query.trim()) {
       setSearch(query.trim());
     }
-    setQuery("");
-    console.log(data);
+    // setQuery("");
   };
-
-  console.log(data);
 
   return (
     <div className="w-full flex flex-col gap-y-2 bg-primary py-8">
       <Container>
         <div className="w-full flex flex-col gap-y-4">
           <TypographyH3 className="text-primary-foreground text-center">
-            Веддите название группы
+            Найти группу
           </TypographyH3>
-
+          <span className="text-xs font-semibold text-primary-foreground text-center">
+            Идентификатор канала/чата (@username, t.me/username,
+            t.me/joinchat/AAAAABbbbbcccc...
+          </span>
           <div className="flex w-full max-w-md mx-auto items-center space-x-2">
             <Input
               type="text"
               className="bg-primary-foreground"
               value={query}
-              placeholder="Введите название..."
+              placeholder="@username, t.me/username, t.me/joinchat/AAAAA"
               onChange={(e) => setQuery(e.target.value)}
             />
             <Button
@@ -82,9 +82,7 @@ export default function Search() {
                   Результаты поиска
                 </TypographyH2>
                 <div className="w-full grid grid-cols-1 mt-4 gap-4 h-fit">
-                  {data?.response?.items?.map((item: any) => (
-                    <RankCard type="light" key={item.id} item={item} />
-                  ))}
+                  <RankCard type="light" item={data.response} />
                 </div>
               </div>
             ))}

@@ -52,16 +52,18 @@ export default function RankCard({
       >
         {item.about}
       </TyphographyP>
-      <TyphographyP
-        className={`w-fit py-1 px-2 text-xs rounded-md ${
-          type === "dark"
-            ? "bg-primary text-primary-foreground"
-            : "bg-primary-foreground text-primary"
-        }`}
-      >
-        Индекс цитирования:
-        {Math.round(item.ci_index)}
-      </TyphographyP>
+      {item.ci_index && (
+        <TyphographyP
+          className={`w-fit py-1 px-2 text-xs rounded-md ${
+            type === "dark"
+              ? "bg-primary text-primary-foreground"
+              : "bg-primary-foreground text-primary"
+          }`}
+        >
+          Индекс цитирования:
+          {Math.round(item.ci_index)}
+        </TyphographyP>
+      )}
       <Button variant={type === "dark" ? "default" : "outline"} asChild>
         <Link href={`/groups/${item.tg_id}`}>
           Полный отчет <LinkIco />
