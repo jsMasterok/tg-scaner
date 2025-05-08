@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 
 import { Slash } from "lucide-react";
 
+import { fakeGroupInfo, trustReviews } from "@/app/utils/constants";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,6 +30,10 @@ export default function GroupClient({ id }: { id: string }) {
   const { data, error, isLoading } = useSWR(`/api/group/${id}`, fetcher);
 
   const stableReviews = getStableReviews(id);
+
+  const isFake = id === "22223035882";
+
+  console.log(isFake);
 
   if (isLoading)
     return (
@@ -68,58 +74,66 @@ export default function GroupClient({ id }: { id: string }) {
           </Button>
         )}
         <TyphographyH1 className="text-center leading-10">
-          Отчет о проверке <br /> {data?.response?.username}
+          Отчет о проверке <br />{" "}
+          {isFake ? fakeGroupInfo.username : data?.response?.username}
         </TyphographyH1>
         <Avatar className="w-32 h-32 mx-auto">
           <AvatarImage
-            src={data?.response?.image640}
-            alt={data?.response?.username}
+            src={isFake ? fakeGroupInfo.image640 : data?.response?.image640}
+            alt={isFake ? fakeGroupInfo.image640 : data?.response?.image640}
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <TyphographyP className="text-center text-primary">
-          ID: {data?.response?.tg_id}
+          ID:
+          {isFake ? fakeGroupInfo.tg_id : data?.response?.tg_id}
         </TyphographyP>
         <TyphographyP className="text-center text-primary">
-          Подписчики: {data?.response?.participants_count}
+          Подписчики:{" "}
+          {isFake
+            ? fakeGroupInfo.participants_count
+            : data?.response?.participants_count}
         </TyphographyP>
         <TyphographyP className="text-center">
-          {data?.response?.title}
+          {isFake ? fakeGroupInfo.title : data?.response?.title}
         </TyphographyP>
         <TyphographyP className="text-primary-foreground rounded-md w-fit text-base bg-primary px-4 mx-auto py-1">
-          Категория: {data?.response?.category}
+          Категория:{" "}
+          {isFake ? fakeGroupInfo.category : data?.response?.category}
         </TyphographyP>
         <TyphographyP className="text-primary text-center !text-lg">
-          Страна: {data?.response?.country}
+          Страна: {isFake ? fakeGroupInfo.country : data?.response?.country}
         </TyphographyP>
         <TyphographyP className="text-center text-primary !text-sm whitespace-pre-line">
-          {data?.response?.about}
+          {isFake ? fakeGroupInfo.about : data?.response?.about}
         </TyphographyP>
         <TypographyH2 className="text-center text-primary">
           Подробная информация
         </TypographyH2>
-        <TyphographyP className="text-primary">
-          Верификация РКН:{" "}
-          <b
-            className={`${
-              data?.response?.rkn_verification.status === "active"
-                ? "text-green-500"
-                : "text-orange-500"
-            }`}
-          >
-            {data?.response?.rkn_verification.status === "active"
-              ? "Верифицирован"
-              : "На проверке"}
-          </b>
-        </TyphographyP>
+        {!isFake && (
+          <TyphographyP className="text-primary">
+            Верификация РКН:{" "}
+            <b
+              className={`${
+                data?.response?.rkn_verification.status === "active"
+                  ? "text-green-500"
+                  : "text-orange-500"
+              }`}
+            >
+              {data?.response?.rkn_verification.status === "active"
+                ? "Верифицирован"
+                : "На проверке"}
+            </b>
+          </TyphographyP>
+        )}
         <TyphographyP className="text-primary">Тип: Группа</TyphographyP>
         <TyphographyP className="text-primary">
-          Язык: {data?.response?.language}
+          Язык: {isFake ? fakeGroupInfo.language : data?.response?.language}
         </TyphographyP>
         <TypographyH2 className="text-center text-primary">
           Ограничения и блокировки
         </TypographyH2>
-        {data?.response?.tgstat_restrictions.length == 0 ? (
+        {!isFake && data?.response?.tgstat_restrictions.length == 0 ? (
           <>
             <TyphographyP className="text-primary">
               Метка за накрутку: <b className="text-green-500">Отсутсвует</b>
@@ -149,8 +163,9 @@ export default function GroupClient({ id }: { id: string }) {
             </TyphographyP>
           </>
         )}
+
         <TypographyH2 className="text-center text-primary">
-          Отзывы ({stableReviews.length})
+          Отзывы ({isFake ? trustReviews.length : stableReviews.length})
         </TypographyH2>
         {stableReviews.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-2">
@@ -161,28 +176,55 @@ export default function GroupClient({ id }: { id: string }) {
           </div>
         )}
         <div className="w-full grid grid-cols-1 gap-4">
-          {stableReviews?.map((rev, index) => (
-            <div
-              key={index}
-              className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
-            >
-              <div className="inline-flex items-center gap-x-2">
-                <Avatar className="w-18 h-18">
-                  <AvatarImage src="" />
-                  <AvatarFallback>
-                    {rev.user.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <TyphographyP className="text-primary">{rev.user}</TyphographyP>
-                <TyphographyP className="text-primary ml-auto">
-                  {rev.date}
-                </TyphographyP>
-              </div>
-              <TyphographyP className="text-primary p-2">
-                {rev.review}
-              </TyphographyP>
-            </div>
-          ))}
+          {!isFake
+            ? stableReviews?.map((rev, index) => (
+                <div
+                  key={index}
+                  className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
+                >
+                  <div className="inline-flex items-center gap-x-2">
+                    <Avatar className="w-18 h-18">
+                      <AvatarImage src="" />
+                      <AvatarFallback>
+                        {rev.user.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <TyphographyP className="text-primary">
+                      {rev.user}
+                    </TyphographyP>
+                    <TyphographyP className="text-primary ml-auto">
+                      {rev.date}
+                    </TyphographyP>
+                  </div>
+                  <TyphographyP className="text-primary p-2">
+                    {rev.review}
+                  </TyphographyP>
+                </div>
+              ))
+            : trustReviews?.map((rev, index) => (
+                <div
+                  key={index}
+                  className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
+                >
+                  <div className="inline-flex items-center gap-x-2">
+                    <Avatar className="w-18 h-18">
+                      <AvatarImage src="" />
+                      <AvatarFallback>
+                        {rev.user.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <TyphographyP className="text-primary">
+                      {rev.user}
+                    </TyphographyP>
+                    <TyphographyP className="text-primary ml-auto">
+                      {rev.date}
+                    </TyphographyP>
+                  </div>
+                  <TyphographyP className="text-primary p-2">
+                    {rev.review}
+                  </TyphographyP>
+                </div>
+              ))}
         </div>
         <TyphographyP className="text-primary text-center !text-xs">
           Отзывы могут оставлять только зарегистрированные пользователи

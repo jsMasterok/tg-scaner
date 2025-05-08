@@ -13,6 +13,8 @@ import { useState } from "react";
 import TypographyH2 from "../typography/TypographyH2";
 import RankCard from "./RankCard";
 
+import { fakeSearchItem } from "../utils/constants";
+
 export default function Search() {
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
@@ -28,6 +30,8 @@ export default function Search() {
     }
     // setQuery("");
   };
+
+  console.log(data);
 
   return (
     <div className="w-full flex flex-col gap-y-2 bg-primary py-8">
@@ -67,7 +71,6 @@ export default function Search() {
               <Loader className="animate-spin" />
             </Button>
           )}
-          {/*  */}
           {error ||
             (!data ? (
               <div className="flex flex-col items-center justify-center text-primary-foreground gap-2">
@@ -76,6 +79,8 @@ export default function Search() {
                 </TyphographyP>
                 <PackageOpen size="42" />
               </div>
+            ) : data.status == "error" ? (
+              <RankCard type="light" item={fakeSearchItem} />
             ) : (
               <div className="w-full flex flex-col gap-y-2">
                 <TypographyH2 className="text-center text-primary-foreground">
@@ -86,7 +91,6 @@ export default function Search() {
                 </div>
               </div>
             ))}
-          {/*  */}
         </div>
       </Container>
     </div>

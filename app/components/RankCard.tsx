@@ -20,15 +20,15 @@ export default function RankCard({
     >
       <header className="w-fit mx-auto flex flex-col items-center gap-y-1">
         <Avatar className="w-18 h-18">
-          <AvatarImage src={item.image100} alt={item.title} />
-          <AvatarFallback>{item.title}</AvatarFallback>
+          <AvatarImage src={item?.image100} alt={item?.title} />
+          <AvatarFallback>{item?.title}</AvatarFallback>
         </Avatar>
         <TypographyH3
           className={`${
             type === "dark" ? "text-primary" : "text-primary-foreground"
           }`}
         >
-          {item.username}
+          {item?.username}
         </TypographyH3>
       </header>
       <TyphographyP
@@ -36,23 +36,23 @@ export default function RankCard({
           type === "dark" ? "text-primary" : "text-primary-foreground"
         }`}
       >
-        Подписчики: {item.participants_count.toLocaleString()}
+        Подписчики: {item?.participants_count.toLocaleString()}
       </TyphographyP>
       <TyphographyP
         className={`${
           type === "dark" ? "text-primary" : "text-primary-foreground"
         }`}
       >
-        {item.title}
+        {item?.title}
       </TyphographyP>
       <TyphographyP
         className={` whitespace-pre-line ${
           type === "dark" ? "text-primary" : "text-primary-foreground"
         }`}
       >
-        {item.about}
+        {item?.about}
       </TyphographyP>
-      {item.ci_index && (
+      {item?.ci_index && (
         <TyphographyP
           className={`w-fit py-1 px-2 text-xs rounded-md ${
             type === "dark"
@@ -65,7 +65,7 @@ export default function RankCard({
         </TyphographyP>
       )}
       <Button variant={type === "dark" ? "default" : "outline"} asChild>
-        <Link href={`/groups/${item.tg_id}`}>
+        <Link href={`/groups/${item?.tg_id}`}>
           Полный отчет <LinkIco />
         </Link>
       </Button>
