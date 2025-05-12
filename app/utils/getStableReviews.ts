@@ -1,5 +1,6 @@
 import seedrandom from "seedrandom";
 import { reviews } from "./constants";
+
 export function getStableReviews(channelId: string) {
   const rng = seedrandom(channelId); // детерминированный рандом
 

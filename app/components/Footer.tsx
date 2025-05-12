@@ -26,7 +26,7 @@ export default function Footer() {
             </span>
           </Link>
           <Link
-            href={"/"}
+            href={"/privacy"}
             className="text-center text-xs font-semibold text-primary-foreground underline"
           >
             Мы используем файлы cookies для улучшения работы сайта. Оставаясь на
@@ -36,19 +36,19 @@ export default function Footer() {
             текст.
           </Link>
           <Link
-            href={"/"}
+            href={"/privacy"}
             className="text-center text-xs font-semibold text-primary-foreground underline"
           >
             Политика конфидециальности
           </Link>
           <Link
-            href={"/"}
+            href={"/terms"}
             className="text-center text-xs font-semibold text-primary-foreground underline"
           >
             Пользовательское соглашение
           </Link>
           <Link
-            href={"/"}
+            href={"/contact"}
             className="text-center text-xs font-semibold text-primary-foreground underline"
           >
             Обратная связь

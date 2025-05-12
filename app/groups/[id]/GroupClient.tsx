@@ -16,8 +16,6 @@ import { Button } from "@/components/ui/button";
 
 import { Slash } from "lucide-react";
 
-import { fakeGroupInfo, trustReviews } from "@/app/utils/constants";
-
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,15 +23,22 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { findGroupById } from "@/app/utils/isFake";
+import { useState, useEffect } from "react";
 
-export default function GroupClient({ id }: { id: string }) {
+export default function GroupClient({ id }: { id: any }) {
+  const [isFake, setIsFake] = useState(false);
+  const [fakeGroupInfo, setFakeGroupInfo] = useState<any>(null);
   const { data, error, isLoading } = useSWR(`/api/group/${id}`, fetcher);
-
   const stableReviews = getStableReviews(id);
 
-  const isFake = id === "22223035882";
-
-  console.log(isFake);
+  useEffect(() => {
+    const found = findGroupById(Number(id));
+    if (found) {
+      setIsFake(true);
+      setFakeGroupInfo(found);
+    }
+  }, [id]);
 
   if (isLoading)
     return (
@@ -165,7 +170,8 @@ export default function GroupClient({ id }: { id: string }) {
         )}
 
         <TypographyH2 className="text-center text-primary">
-          Отзывы ({isFake ? trustReviews.length : stableReviews.length})
+          Отзывы ({isFake ? fakeGroupInfo.reviews.length : stableReviews.length}
+          )
         </TypographyH2>
         {stableReviews.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-2">
@@ -201,7 +207,7 @@ export default function GroupClient({ id }: { id: string }) {
                   </TyphographyP>
                 </div>
               ))
-            : trustReviews?.map((rev, index) => (
+            : fakeGroupInfo.reviews?.map((rev: any, index: any) => (
                 <div
                   key={index}
                   className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
