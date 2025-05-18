@@ -1,26 +1,22 @@
 "use client";
 import useSWR from "swr";
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
+import { useState } from "react";
 import { TypographyH3 } from "../typography/TypographyH3";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Container from "../layouts/Container";
 import { Loader } from "lucide-react";
-
-import { useState } from "react";
+import TyphographyP from "../typography/TyphographyP";
 import RankCard from "./RankCard";
 
-import { telegramLinkRegex } from "../utils/constants";
-import { findGroupByLink } from "../utils/getFakeData";
-import TyphographyP from "../typography/TyphographyP";
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Search() {
   const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
 
   const { data, error, isLoading } = useSWR(
-    search ? `/api/search?q=${encodeURIComponent(search)}` : null,
+    search ? `/api/search?query=${encodeURIComponent(search)}` : null,
     fetcher
   );
 
@@ -28,7 +24,6 @@ export default function Search() {
     if (query.trim()) {
       setSearch(query.trim());
     }
-    setQuery("");
   };
 
   return (
@@ -39,47 +34,44 @@ export default function Search() {
             Найти группу
           </TypographyH3>
           <span className="text-xs font-semibold text-primary-foreground text-center">
-            Вставтье ссылку на канал/группу или cсылку приглашение
+            Введите ключевое слово или название Telegram-канала
           </span>
           <div className="flex w-full max-w-md mx-auto items-center space-x-2">
             <Input
               type="text"
               className="bg-primary-foreground"
               value={query}
-              placeholder="t.me/username, t.me/joinchat/AAAAA"
+              placeholder="Поиск..."
               onChange={(e) => setQuery(e.target.value)}
             />
             <Button
               type="submit"
-              className=""
-              disabled={query === "" || !telegramLinkRegex.test(query)}
+              disabled={false}
               variant={"outline"}
               onClick={handleSearch}
             >
               Найти
             </Button>
           </div>
+
           {isLoading && (
             <Button
               variant="outline"
               className="text-base w-fit mx-auto font-semibold"
             >
               Выполняем поиск
-              <Loader className="animate-spin" />
+              <Loader className="animate-spin ml-2" />
             </Button>
           )}
-          {data?.status == "error" && findGroupByLink(search) ? (
-            <RankCard type="light" item={findGroupByLink(search)} />
-          ) : data?.status == "ok" && findGroupByLink(search) ? (
-            <RankCard type="light" item={findGroupByLink(search)} />
-          ) : (
-            data && <RankCard type="light" item={data?.response} />
-          )}
+
           {error && (
             <TyphographyP className="text-center text-primary-foreground">
-              Данных не найдено - попробуйте снова
+              Произошла ошибка при поиске. Попробуйте снова.
             </TyphographyP>
           )}
+          {data?.data?.map((item: any) => (
+            <RankCard key={item.tg_id} type="light" item={item} />
+          ))}
         </div>
       </Container>
     </div>
