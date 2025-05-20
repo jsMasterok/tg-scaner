@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Slash } from "lucide-react";
 import Link from "next/link";
 import { Link as LinkLu } from "lucide-react";
+import { Paperclip } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -27,12 +28,21 @@ import {
 } from "@/components/ui/breadcrumb";
 import { findGroupById } from "@/app/utils/isFake";
 import { useState, useEffect } from "react";
+import { LightboxItems } from "@/app/components/LightboxItem";
 
 export default function GroupClient({ id }: { id: any }) {
   const [isFake, setIsFake] = useState(false);
   const [fakeGroupInfo, setFakeGroupInfo] = useState<any>(null);
   const { data, error, isLoading } = useSWR(`/api/group/${id}`, fetcher);
   const stableReviews = getStableReviews(id);
+
+  const sortReviewsByDate = (reviews: any) => {
+    return reviews.slice().sort((a: any, b: any) => {
+      const dateA: any = new Date(a.date.split('.').reverse().join('-'));
+      const dateB: any = new Date(b.date.split('.').reverse().join('-'));
+      return dateB - dateA;
+    });
+  }
 
   useEffect(() => {
     const found = findGroupById(Number(id));
@@ -114,10 +124,10 @@ export default function GroupClient({ id }: { id: any }) {
         <TyphographyP className="text-center text-primary !text-sm whitespace-pre-line">
           {isFake ? fakeGroupInfo.about : data?.response?.about}
         </TyphographyP>
-                <Link href={isFake ? fakeGroupInfo?.link : `https://${data?.response?.link}`} className="w-fit mx-auto my-2" >
-        <Button className="uppercase">          перейти в группу 
-          <LinkLu />
-</Button>
+        <Link href={isFake ? fakeGroupInfo?.link : `https://${data?.response?.link}`} className="w-fit mx-auto my-2" >
+          <Button className="uppercase">          перейти в группу
+            <LinkLu />
+          </Button>
         </Link>
         <TypographyH2 className="text-center text-primary">
           Подробная информация
@@ -128,8 +138,8 @@ export default function GroupClient({ id }: { id: any }) {
             Верификация РКН:{" "}
             <b
               className={`${data?.response?.rkn_verification.status === "active"
-                  ? "text-green-500"
-                  : "text-orange-500"
+                ? "text-green-500"
+                : "text-orange-500"
                 }`}
             >
               {data?.response?.rkn_verification.status === "active"
@@ -190,7 +200,7 @@ export default function GroupClient({ id }: { id: any }) {
         )}
         <div className="w-full grid grid-cols-1 gap-4">
           {!isFake
-            ? stableReviews?.map((rev, index) => (
+            ? sortReviewsByDate(stableReviews)?.map((rev: any, index: any) => (
               <div
                 key={index}
                 className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
@@ -214,7 +224,7 @@ export default function GroupClient({ id }: { id: any }) {
                 </TyphographyP>
               </div>
             ))
-            : fakeGroupInfo.reviews?.map((rev: any, index: any) => (
+            : sortReviewsByDate(fakeGroupInfo.reviews)?.map((rev: any, index: any) => (
               <div
                 key={index}
                 className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
@@ -236,6 +246,19 @@ export default function GroupClient({ id }: { id: any }) {
                 <TyphographyP className="text-primary p-2">
                   {rev.review}
                 </TyphographyP>
+                {rev.photos.length > 0 &&
+                  <div className="w-full flex flex-col gap-y-2 px-2 my-1">
+                    <TypographyH2 className="text-start !text-base inline-flex items-center gap-x-2">
+                      Прикрепленные файлы
+                      <Paperclip size={20} />
+                    </TypographyH2>
+                    <div className="w-full flex items-center justify-start flex-wrap gap-2">
+                      {rev.photos.map((item: any, index: any) => (
+                        <LightboxItems title={`Отзыв за ${rev.date} | ${rev.user}`} key={index} src={item} alt={rev.reviev} />
+                      ))}
+                    </div>
+                  </div>
+                }
               </div>
             ))}
         </div>
