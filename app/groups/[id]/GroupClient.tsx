@@ -114,7 +114,7 @@ export default function GroupClient({ id }: { id: any }) {
         <TyphographyP className="text-center text-primary !text-sm whitespace-pre-line">
           {isFake ? fakeGroupInfo.about : data?.response?.about}
         </TyphographyP>
-                <Link href={`${isFake ? fakeGroupInfo.link : data.response.link }`} className="w-fit mx-auto my-2" >
+                <Link href={isFake ? fakeGroupInfo?.link : `https://${data?.response?.link}`} className="w-fit mx-auto my-2" >
         <Button className="uppercase">          перейти в группу 
           <LinkLu />
 </Button>
