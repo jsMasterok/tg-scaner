@@ -15,6 +15,8 @@ import { Loader, PackageOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Slash } from "lucide-react";
+import Link from "next/link";
+import { Link as LinkLu } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -112,18 +114,23 @@ export default function GroupClient({ id }: { id: any }) {
         <TyphographyP className="text-center text-primary !text-sm whitespace-pre-line">
           {isFake ? fakeGroupInfo.about : data?.response?.about}
         </TyphographyP>
+                <Link href={`${isFake ? fakeGroupInfo.link : data.response.link }`} className="w-fit mx-auto my-2" >
+        <Button className="uppercase">          перейти в группу 
+          <LinkLu />
+</Button>
+        </Link>
         <TypographyH2 className="text-center text-primary">
           Подробная информация
         </TypographyH2>
+
         {!isFake && (
           <TyphographyP className="text-primary">
             Верификация РКН:{" "}
             <b
-              className={`${
-                data?.response?.rkn_verification.status === "active"
+              className={`${data?.response?.rkn_verification.status === "active"
                   ? "text-green-500"
                   : "text-orange-500"
-              }`}
+                }`}
             >
               {data?.response?.rkn_verification.status === "active"
                 ? "Верифицирован"
@@ -184,53 +191,53 @@ export default function GroupClient({ id }: { id: any }) {
         <div className="w-full grid grid-cols-1 gap-4">
           {!isFake
             ? stableReviews?.map((rev, index) => (
-                <div
-                  key={index}
-                  className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
-                >
-                  <div className="inline-flex items-center gap-x-2">
-                    <Avatar className="w-18 h-18">
-                      <AvatarImage src="" />
-                      <AvatarFallback>
-                        {rev.user.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <TyphographyP className="text-primary">
-                      {rev.user}
-                    </TyphographyP>
-                    <TyphographyP className="text-primary ml-auto">
-                      {rev.date}
-                    </TyphographyP>
-                  </div>
-                  <TyphographyP className="text-primary p-2">
-                    {rev.review}
+              <div
+                key={index}
+                className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
+              >
+                <div className="inline-flex items-center gap-x-2">
+                  <Avatar className="w-18 h-18">
+                    <AvatarImage src="" />
+                    <AvatarFallback>
+                      {rev.user.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <TyphographyP className="text-primary">
+                    {rev.user}
+                  </TyphographyP>
+                  <TyphographyP className="text-primary ml-auto">
+                    {rev.date}
                   </TyphographyP>
                 </div>
-              ))
+                <TyphographyP className="text-primary p-2">
+                  {rev.review}
+                </TyphographyP>
+              </div>
+            ))
             : fakeGroupInfo.reviews?.map((rev: any, index: any) => (
-                <div
-                  key={index}
-                  className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
-                >
-                  <div className="inline-flex items-center gap-x-2">
-                    <Avatar className="w-18 h-18">
-                      <AvatarImage src="" />
-                      <AvatarFallback>
-                        {rev.user.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <TyphographyP className="text-primary">
-                      {rev.user}
-                    </TyphographyP>
-                    <TyphographyP className="text-primary ml-auto">
-                      {rev.date}
-                    </TyphographyP>
-                  </div>
-                  <TyphographyP className="text-primary p-2">
-                    {rev.review}
+              <div
+                key={index}
+                className="w-full p-2 rounded-md flex flex-col gap-y-2 border-2 border-primary"
+              >
+                <div className="inline-flex items-center gap-x-2">
+                  <Avatar className="w-18 h-18">
+                    <AvatarImage src="" />
+                    <AvatarFallback>
+                      {rev.user.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <TyphographyP className="text-primary">
+                    {rev.user}
+                  </TyphographyP>
+                  <TyphographyP className="text-primary ml-auto">
+                    {rev.date}
                   </TyphographyP>
                 </div>
-              ))}
+                <TyphographyP className="text-primary p-2">
+                  {rev.review}
+                </TyphographyP>
+              </div>
+            ))}
         </div>
         <TyphographyP className="text-primary text-center !text-xs">
           Отзывы могут оставлять только зарегистрированные пользователи
