@@ -246,14 +246,14 @@ export default function GroupClient({ id }: { id: any }) {
                 <TyphographyP className="text-primary p-2">
                   {rev.review}
                 </TyphographyP>
-                {rev.photos.length > 0 &&
+                {rev?.photos?.length > 0 &&
                   <div className="w-full flex flex-col gap-y-2 px-2 my-1">
                     <TypographyH2 className="text-start !text-base inline-flex items-center gap-x-2">
                       Прикрепленные файлы
                       <Paperclip size={20} />
                     </TypographyH2>
                     <div className="w-full flex items-center justify-start flex-wrap gap-2">
-                      {rev.photos.map((item: any, index: any) => (
+                      {rev?.photos.map((item: any, index: any) => (
                         <LightboxItems title={`Отзыв за ${rev.date} | ${rev.user}`} key={index} src={item} alt={rev.reviev} />
                       ))}
                     </div>
