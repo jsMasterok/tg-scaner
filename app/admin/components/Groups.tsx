@@ -147,7 +147,7 @@ export default function Groups() {
         <DrawerContent className="">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full h-full overflow-auto"
+            className="w-full h-full overflow-auto max-w-lg mx-auto"
           >
             <DrawerHeader>
               <DrawerTitle>Добавление новой группы/канала</DrawerTitle>
