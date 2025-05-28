@@ -13,7 +13,7 @@ export default function Header() {
           <nav className="w-full flex items-center justify-between gap-x-2">
             <Link
               href={"/"}
-              className="p-2 inline-flex text-primary w-fit gap-1 items-center rounded-md bg-primary-foreground"
+              className="p-2 text-primary w-fit gap-1 items-center rounded-md bg-primary-foreground inline-flex"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
