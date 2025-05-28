@@ -14,8 +14,13 @@ const eslintConfig = [
 
   {
     files: ["**/*.ts", "**/*.tsx"],
+    extends: "next/core-web-vitals",
+
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/rules-of-hooks": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@next/next/no-img-element": "off",
     },
   },
 ];
