@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 export default function addRev() {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<any>([]);
   const [form, setForm] = useState({
     date: "",
     username: "",
@@ -28,7 +28,7 @@ export default function addRev() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setReviews((prev) => [...prev, form]);
+    setReviews((prev: any) => [...prev, form]);
     setForm({ date: "", username: "", review: "", photos: [] }); // reset
   };
 
@@ -73,14 +73,14 @@ export default function addRev() {
 
       <h3 className="text-lg font-semibold">Отзывы:</h3>
       <ul className="space-y-4">
-        {reviews.map((rev, idx) => (
+        {reviews.map((rev: any, idx: any) => (
           <li key={idx} className="p-2 border rounded">
             <p>
               <strong>{rev.username}</strong> ({rev.date})
             </p>
             <p>{rev.review}</p>
             <div className="flex gap-2 mt-2 flex-wrap">
-              {rev.photos.map((src, i) => (
+              {rev.photos.map((src: any, i: any) => (
                 <img
                   key={i}
                   src={src}

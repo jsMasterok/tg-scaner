@@ -33,7 +33,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export default function Reviews() {
   const [token, setToken, removeToken] = useLocalStorage("token", 0);
-  const [revPhoto, setRevPhoto] = useState<File | null>(null);
+  const [revPhoto, setRevPhoto] = useState<any>(null);
 
   const { data, error, isLoading, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URI}/reviews`,
@@ -60,7 +60,9 @@ export default function Reviews() {
   const submitRev = async () => {
     try {
       const formData = new FormData();
-      formData.append("image", revPhoto);
+      if (revPhoto) {
+        formData.append("image", revPhoto);
+      }
 
       // 1. Загрузка изображения
       const uploadRes = await axios.post(
@@ -90,7 +92,7 @@ export default function Reviews() {
           reset(); // сброс формы
         });
 
-      console.log("Группа добавлена:", revRes.data);
+      console.log("Группа добавлена:", revRes);
       toast.success("Отзыв успешно опубликован");
     } catch (e) {
       console.error("Ошибка:", e);
@@ -98,7 +100,7 @@ export default function Reviews() {
     }
   };
 
-  const deleteReview = (id) => {
+  const deleteReview = (id: any) => {
     const confirmed = window.confirm("Вы уверены, что хотите удалить отзыв?");
     if (!confirmed) return;
     console.log(`${process.env.NEXT_PUBLIC_API_URI}/reviews/${id}`);
@@ -131,7 +133,7 @@ export default function Reviews() {
         Отзывы для остальных груп (Нейтральные)
       </TyphographyP>
       <div className="grid grid-cols-1 gap-y-2">
-        {data?.map((item, index) => (
+        {data?.map((item: any, index: any) => (
           <div
             key={index}
             className="w-full relative flex flex-col gap-y-2 p-2 rounded-md border-2 border-primary"

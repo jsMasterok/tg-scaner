@@ -27,7 +27,13 @@ import toast from "react-hot-toast";
 import AddRev from "./AddRev";
 import { reviews } from "@/app/utils/constants";
 
-export default function ListItem({ item, mutate }) {
+export default function ListItem({
+  item,
+  mutate,
+}: {
+  item: any;
+  mutate: () => {};
+}) {
   const [token, setToken, removeToken] = useLocalStorage("token", 0);
   const [revName, setRevName] = useState("");
   const [revDate, setRevDate] = useState("");
@@ -337,7 +343,7 @@ export default function ListItem({ item, mutate }) {
                 <div className="space-y-2">
                   <Label htmlFor="photos">Фото (Если нужно)</Label>
                   <Input
-                    onChange={(e) => setRevPhoto(e.target.files?.[0])}
+                    onChange={(e: any) => setRevPhoto(e.target.files?.[0])}
                     type="file"
                     multiple
                   />

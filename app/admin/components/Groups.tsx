@@ -80,7 +80,9 @@ export default function Groups() {
   const onSubmit = async (data: any) => {
     try {
       const formData = new FormData();
-      formData.append("image", photo);
+      if (photo) {
+        formData.append("image", photo);
+      }
 
       // 1. Загрузка изображения
       const uploadRes = await axios.post(
@@ -252,7 +254,7 @@ export default function Groups() {
               <div className="space-y-2">
                 <Label htmlFor="photo">Фото группы</Label>
                 <Input
-                  onChange={(e) => {
+                  onChange={(e: any) => {
                     setPhoto(e.target.files?.[0]);
                   }}
                   id="photo"
